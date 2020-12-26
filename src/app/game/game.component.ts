@@ -20,12 +20,15 @@ export class GameComponent implements OnInit {
   computer = this.playerOne;
   player = this.playerTwo;
 
+  gameOver = false;
+
   twoPlayerMode = false;
 
   playerTurn = 'X';
 
   startGame() {
     this.playerTurn = 'X';
+    this.gameOver = false;
 
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
@@ -47,7 +50,9 @@ export class GameComponent implements OnInit {
   }
 
   computerMove() {
-    console.log('yes');
+    if (this.gameOver) {
+      return alert('The game has ended! Please start a New Game');
+    }
     let bestScore = -Infinity;
     let move;
 
@@ -74,6 +79,7 @@ export class GameComponent implements OnInit {
 
     const result = this.isGameOver();
     if (result) {
+      this.gameOver = true;
       alert(result);
       return;
     }
@@ -128,6 +134,10 @@ export class GameComponent implements OnInit {
   }
 
   placeMarker(rowId, squareId) {
+    if (this.gameOver) {
+      return alert('The game has ended! Please start a New Game');
+    }
+
     if (this.gameBoard[rowId][squareId] !== '') {
       alert('that spot is taken!');
       return;
@@ -143,6 +153,7 @@ export class GameComponent implements OnInit {
 
     const result = this.isGameOver();
     if (result) {
+      this.gameOver = true;
       alert(result);
       return;
     }
@@ -154,6 +165,10 @@ export class GameComponent implements OnInit {
   isMarked(i, j) {
     const row = i;
     const square = j;
+
+    if (this.gameOver) {
+      return true;
+    }
 
     if (this.gameBoard[row][square] !== '') {
       return true;
