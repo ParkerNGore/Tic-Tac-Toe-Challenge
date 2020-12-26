@@ -20,9 +20,9 @@ export class GameComponent implements OnInit {
   computer = this.playerOne;
   player = this.playerTwo;
 
-  playerTurn = 'X';
+  twoPlayerMode = false;
 
-  scores = {};
+  playerTurn = 'X';
 
   startGame() {
     this.playerTurn = 'X';
@@ -37,7 +37,7 @@ export class GameComponent implements OnInit {
       this.scores = {
         X: 1,
         O: -1,
-        tie: 0,
+        Draw: 0,
       };
       this.computerMove();
     } else if (this.isComputer && this.computer === 'O') {
@@ -71,7 +71,19 @@ export class GameComponent implements OnInit {
     } else if (this.computer === 'O') {
       this.playerTurn = 'X';
     }
+
+    const result = this.isGameOver();
+    if (result) {
+      alert(result);
+      return;
+    }
   }
+
+  scores = {
+    X: 1,
+    O: -1,
+    Draw: 0,
+  };
 
   minimax(gameBoard, depth, isMaximizing) {
     let result = this.isGameOver();
@@ -97,7 +109,7 @@ export class GameComponent implements OnInit {
         for (let j = 0; j < 3; j++) {
           if (gameBoard[i][j] === '') {
             gameBoard[i][j] = this.player;
-            let score = this.minimax(gameBoard, depth, true);
+            let score = this.minimax(gameBoard, depth + 1, true);
             gameBoard[i][j] = '';
             bestScore = Math.min(score, bestScore);
           }
@@ -129,7 +141,14 @@ export class GameComponent implements OnInit {
       this.playerTurn = 'X';
     }
 
-    this.isGameOver();
+    const result = this.isGameOver();
+    if (result) {
+      alert(result);
+      return;
+    }
+    if (!this.twoPlayerMode) {
+      this.computerMove();
+    }
   }
 
   isMarked(i, j) {
