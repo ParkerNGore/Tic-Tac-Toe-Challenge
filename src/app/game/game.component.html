@@ -20,8 +20,42 @@
     </div>
   </div>
 
-  <div>
-    <button type="button" (click)="startGame()" class="start-button">
+  <div class="setup-container">
+    <div>
+      <div>
+        <button
+          class="button"
+          [ngClass]="{ clicked: twoPlayerMode }"
+          (click)="twoPlayerMode = true"
+        >
+          VS Player
+        </button>
+        <button
+          class="button"
+          [ngClass]="{ clicked: !twoPlayerMode }"
+          (click)="twoPlayerMode = false"
+        >
+          VS Computer
+        </button>
+      </div>
+      <div [ngClass]="{ hidden: twoPlayerMode, shown: !twoPlayerMode }">
+        <button
+          class="button"
+          [ngClass]="{ clicked: playerGoesFirst }"
+          (click)="playerGoesFirst = true"
+        >
+          Go First
+        </button>
+        <button
+          class="button"
+          [ngClass]="{ clicked: !playerGoesFirst }"
+          (click)="playerGoesFirst = false"
+        >
+          Go Second
+        </button>
+      </div>
+    </div>
+    <button type="button" (click)="startGame()" class="button">
       Start Game
     </button>
   </div>

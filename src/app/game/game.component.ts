@@ -13,12 +13,10 @@ export class GameComponent implements OnInit {
     ['X', 'O', 'X'],
   ];
 
-  playerOne = 'X';
-  playerTwo = 'O';
+  computer = 'O';
+  player = 'X';
 
-  isComputer = true;
-  computer = this.playerOne;
-  player = this.playerTwo;
+  playerGoesFirst = true;
 
   gameOver = false;
 
@@ -26,9 +24,21 @@ export class GameComponent implements OnInit {
 
   playerTurn = 'X';
 
+  scores = {};
+
   startGame() {
     this.playerTurn = 'X';
     this.gameOver = false;
+
+    if (!this.twoPlayerMode) {
+      if (this.playerGoesFirst) {
+        this.computer = 'O';
+        this.player = 'X';
+      } else {
+        this.computer = 'X';
+        this.player = 'O';
+      }
+    }
 
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
@@ -36,15 +46,19 @@ export class GameComponent implements OnInit {
       }
     }
 
-    if (this.isComputer && this.computer === 'X') {
+    if (!this.twoPlayerMode && this.computer === 'X') {
       this.scores = {
         X: 1,
         O: -1,
         Draw: 0,
       };
       this.computerMove();
-    } else if (this.isComputer && this.computer === 'O') {
-      return alert('Computer is O');
+    } else if (!this.twoPlayerMode && this.computer === 'O') {
+      this.scores = {
+        O: 1,
+        X: -1,
+        Draw: 0,
+      };
     } else {
     }
   }
@@ -84,12 +98,6 @@ export class GameComponent implements OnInit {
       return;
     }
   }
-
-  scores = {
-    X: 1,
-    O: -1,
-    Draw: 0,
-  };
 
   minimax(gameBoard, depth, isMaximizing) {
     let result = this.isGameOver();

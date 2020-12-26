@@ -36,7 +36,7 @@
   color: lightgray;
 }
 
-.start-button {
+.button {
   margin-top: 2rem;
   font-size: 2rem;
   border-color: black;
@@ -45,8 +45,23 @@
   color: firebrick;
 }
 
-.start-button:hover {
+.button:hover {
   color: lightgray;
   background-color: firebrick;
   cursor: pointer;
+}
+
+.clicked,
+.clicked:hover {
+  color: lightgray;
+  background-color: firebrick;
+  cursor: default;
+}
+
+.hidden {
+  border: 1px solid black;
+  display: none;
+}
+.shown {
+  border: 1px solid firebrick;
 }
