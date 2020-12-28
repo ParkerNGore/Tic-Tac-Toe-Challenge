@@ -2,7 +2,7 @@
   <h1>Game Component</h1>
   <h2>Click the start button to play!</h2>
   <div class="game-board">
-    <div *ngFor="let row of gameBoard; let i = index" class="row">
+    <div *ngFor="let row of gameBoard; let i = index" class="board-row">
       <div
         *ngFor="let square of row; let j = index"
         class="square"
