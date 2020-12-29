@@ -17,14 +17,11 @@ export class GameComponent implements OnInit {
 
   computer = 'O';
   player = 'X';
+  playerTurn = 'X';
 
   playerGoesFirst = true;
-
   gameOver = false;
-
   twoPlayerMode = false;
-
-  playerTurn = 'X';
 
   displayMessage = '';
 
@@ -33,7 +30,6 @@ export class GameComponent implements OnInit {
   startGame() {
     this.playerTurn = 'X';
     this.gameOver = false;
-
     this.displayMessage = 'Enjoy the game!';
 
     if (!this.twoPlayerMode) {
@@ -49,9 +45,11 @@ export class GameComponent implements OnInit {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         this.gameBoard[i][j] = '';
+        // Goes through the indexs of Game Board to its initial playable state
       }
     }
 
+    // This code sets the scores for the MiniMax Algorithm to ensure the computer plays properly
     if (!this.twoPlayerMode && this.computer === 'X') {
       this.scores = {
         X: 1,
@@ -65,7 +63,6 @@ export class GameComponent implements OnInit {
         X: -1,
         Draw: 0,
       };
-    } else {
     }
   }
 
@@ -74,6 +71,8 @@ export class GameComponent implements OnInit {
       return (this.displayMessage =
         'The game has ended! Please start a New Game');
     }
+    // Set the initial value to ensure that any value received will be its next move.
+    // For this program we could have as easily chosen -2
     let bestScore = -Infinity;
     let move;
 
@@ -81,8 +80,11 @@ export class GameComponent implements OnInit {
       for (let j = 0; j < 3; j++) {
         if (this.gameBoard[i][j] === '') {
           this.gameBoard[i][j] = this.computer;
+          // With this code we place the computer's 'marker' in the next available spot and run MiniMax to score the move
+          // We do this for every spot to determine the best move for the computer
 
           let score = this.minimax(this.gameBoard, 0, false);
+          // waiting
           this.gameBoard[i][j] = '';
           if (score > bestScore) {
             bestScore = score;
@@ -115,23 +117,13 @@ export class GameComponent implements OnInit {
 
   minimax(gameBoard, depth, isMaximizing) {
     let result = this.isGameOver();
+    // The first thing we do is check if this will end the game, if it does this is one of its best moves
+    // To make this better we could have this return infinity to indicate this will cause the computer to win
     if (result !== null) {
       return this.scores[result];
     }
-    if (isMaximizing) {
-      let bestScore = -Infinity;
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-          if (gameBoard[i][j] === '') {
-            gameBoard[i][j] = this.computer;
-            let score = this.minimax(gameBoard, depth + 1, false);
-            gameBoard[i][j] = '';
-            bestScore = Math.max(score, bestScore);
-          }
-        }
-      }
-      return bestScore;
-    } else {
+    if (!isMaximizing) {
+      // The next step is for the computer to see what the players next turn could look like based of the computers move
       let bestScore = Infinity;
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
@@ -140,6 +132,20 @@ export class GameComponent implements OnInit {
             let score = this.minimax(gameBoard, depth + 1, true);
             gameBoard[i][j] = '';
             bestScore = Math.min(score, bestScore);
+          }
+        }
+      }
+      return bestScore;
+    } else {
+      // Now we have the computer envision its turn after the players turn and the process repeats
+      let bestScore = -Infinity;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (gameBoard[i][j] === '') {
+            gameBoard[i][j] = this.computer;
+            let score = this.minimax(gameBoard, depth + 1, false);
+            gameBoard[i][j] = '';
+            bestScore = Math.max(score, bestScore);
           }
         }
       }
