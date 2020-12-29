@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
+  constructor() {}
+
   gameBoard = [
     ['X', 'O', 'X'],
     ['O', 'X', 'O'],
@@ -24,11 +26,15 @@ export class GameComponent implements OnInit {
 
   playerTurn = 'X';
 
+  displayMessage = '';
+
   scores = {};
 
   startGame() {
     this.playerTurn = 'X';
     this.gameOver = false;
+
+    this.displayMessage = 'Enjoy the game!';
 
     if (!this.twoPlayerMode) {
       if (this.playerGoesFirst) {
@@ -65,7 +71,8 @@ export class GameComponent implements OnInit {
 
   computerMove() {
     if (this.gameOver) {
-      return alert('The game has ended! Please start a New Game');
+      return (this.displayMessage =
+        'The game has ended! Please start a New Game');
     }
     let bestScore = -Infinity;
     let move;
@@ -92,9 +99,16 @@ export class GameComponent implements OnInit {
     }
 
     const result = this.isGameOver();
-    if (result) {
+    if (result === 'Draw') {
       this.gameOver = true;
-      alert(result);
+      this.displayMessage = `The game is a ${result}`;
+
+      return;
+    }
+    if (result === 'O' || result === 'X') {
+      this.gameOver = true;
+      this.displayMessage = `${result} has won the game!`;
+
       return;
     }
   }
@@ -143,11 +157,12 @@ export class GameComponent implements OnInit {
 
   placeMarker(rowId, squareId) {
     if (this.gameOver) {
-      return alert('The game has ended! Please start a New Game');
+      return (this.displayMessage =
+        'The game has ended! Please start a New Game');
     }
 
     if (this.gameBoard[rowId][squareId] !== '') {
-      alert('that spot is taken!');
+      this.displayMessage = 'that spot is taken!';
       return;
     }
 
@@ -160,9 +175,16 @@ export class GameComponent implements OnInit {
     }
 
     const result = this.isGameOver();
-    if (result) {
+    if (result === 'Draw') {
       this.gameOver = true;
-      alert(result);
+      this.displayMessage = `The game is a ${result}`;
+
+      return;
+    }
+    if (result === 'O' || result === 'X') {
+      this.gameOver = true;
+      this.displayMessage = `${result} has won the game!`;
+
       return;
     }
     if (!this.twoPlayerMode) {
@@ -255,8 +277,6 @@ export class GameComponent implements OnInit {
       return winner;
     }
   }
-
-  constructor() {}
 
   ngOnInit(): void {}
 }

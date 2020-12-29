@@ -1,11 +1,58 @@
-<div class="game-container">
-  <h1>Game Component</h1>
+<div class="game-main">
+  <h1>Tic-Tac-Toe</h1>
   <h2>Click the start button to play!</h2>
-  <div class="game-board">
-    <div *ngFor="let row of gameBoard; let i = index" class="board-row">
+  <div class="game-container">
+    <div class="setup-container">
+      <div class="options-container">
+        <div class="option-button-container">
+          <button
+            class="btn button"
+            [ngClass]="{ clicked: twoPlayerMode }"
+            (click)="twoPlayerMode = true"
+          >
+            VS Player
+          </button>
+          <button
+            class="btn button"
+            [ngClass]="{ clicked: !twoPlayerMode }"
+            (click)="twoPlayerMode = false"
+          >
+            VS Computer
+          </button>
+        </div>
+        <div
+          [ngClass]="{ hidden: twoPlayerMode, shown: !twoPlayerMode }"
+          class="option-button-container"
+        >
+          <button
+            class="btn button"
+            [ngClass]="{ clicked: playerGoesFirst }"
+            (click)="playerGoesFirst = true"
+          >
+            Go First
+          </button>
+          <button
+            class="btn button"
+            [ngClass]="{ clicked: !playerGoesFirst }"
+            (click)="playerGoesFirst = false"
+          >
+            Go Second
+          </button>
+        </div>
+      </div>
+      <div class="start-game-button-container">
+        <button type="button" (click)="startGame()" class="btn button">
+          Start Game
+        </button>
+      </div>
+    </div>
+    <div class="message-container">
+      <h2 class="display-message">{{ displayMessage }}</h2>
+    </div>
+    <div *ngFor="let row of gameBoard; let i = index" class="board-row row">
       <div
         *ngFor="let square of row; let j = index"
-        class="square"
+        class="square col"
         [ngClass]="{
           marked: isMarked(i, j),
           unmarked: !isMarked(i, j)
@@ -18,45 +65,5 @@
         </p>
       </div>
     </div>
-  </div>
-
-  <div class="setup-container">
-    <div>
-      <div>
-        <button
-          class="button"
-          [ngClass]="{ clicked: twoPlayerMode }"
-          (click)="twoPlayerMode = true"
-        >
-          VS Player
-        </button>
-        <button
-          class="button"
-          [ngClass]="{ clicked: !twoPlayerMode }"
-          (click)="twoPlayerMode = false"
-        >
-          VS Computer
-        </button>
-      </div>
-      <div [ngClass]="{ hidden: twoPlayerMode, shown: !twoPlayerMode }">
-        <button
-          class="button"
-          [ngClass]="{ clicked: playerGoesFirst }"
-          (click)="playerGoesFirst = true"
-        >
-          Go First
-        </button>
-        <button
-          class="button"
-          [ngClass]="{ clicked: !playerGoesFirst }"
-          (click)="playerGoesFirst = false"
-        >
-          Go Second
-        </button>
-      </div>
-    </div>
-    <button type="button" (click)="startGame()" class="button">
-      Start Game
-    </button>
   </div>
 </div>
