@@ -198,25 +198,6 @@ export class GameComponent implements OnInit {
     }
   }
 
-  isMarked(i, j) {
-    const row = i;
-    const square = j;
-
-    if (this.gameOver) {
-      return true;
-    }
-
-    if (this.gameBoard[row][square] !== '') {
-      return true;
-    }
-    if (
-      this.gameBoard[row][square] === 'X' ||
-      this.gameBoard[row][square] === 'O'
-    ) {
-      return false;
-    }
-  }
-
   isWinner(a, b, c) {
     return a === b && b === c && a != '';
   }
@@ -281,6 +262,25 @@ export class GameComponent implements OnInit {
       return 'Draw';
     } else {
       return winner;
+    }
+  }
+
+  isMarked(i, j) {
+    const row = i;
+    const square = j;
+
+    if (this.gameOver) {
+      return true;
+    }
+
+    if (this.gameBoard[row][square] !== '') {
+      return true;
+    }
+    if (
+      this.gameBoard[row][square] === 'X' ||
+      this.gameBoard[row][square] === 'O'
+    ) {
+      return false;
     }
   }
 
