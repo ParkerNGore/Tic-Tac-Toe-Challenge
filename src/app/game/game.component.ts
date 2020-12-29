@@ -84,7 +84,6 @@ export class GameComponent implements OnInit {
           // We do this for every spot to determine the best move for the computer
 
           let score = this.minimax(this.gameBoard, 0, false);
-          // waiting
           this.gameBoard[i][j] = '';
           if (score > bestScore) {
             bestScore = score;
