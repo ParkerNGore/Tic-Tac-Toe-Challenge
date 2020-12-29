@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer > a {
+  color: #ff7c21;
+  font-size: medium;
+  font-weight: normal;
+}
+.footer > a:hover {
+  color: #9952b8;
+}
